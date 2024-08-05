@@ -1,2 +1,2 @@
-# Trabalho C++ de Introdução os Algoritimos
+# TrabalhoDeIntroducaoOsAlgoritimos
  Trabalho realizado para a disciplina GCC112 na Universidade Federal de Lavras
