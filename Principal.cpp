@@ -166,11 +166,34 @@ void ExibirInformacoes(timesDaNBA* times, int tamanhoAtual) {
 			cout << "-------------------------------" << endl;
 		}
 }
-
-
+/*
+ * A função BuscarPorNome retorna um ponteiro para um objeto do tipo 
+ * timesDaNBA. O tipo de retorno é timesDaNBA*. Isso permite que a função
+ * retorne o endereço do time encontrado na memória, facilitando o acesso às suas 
+ * informações. Caso o time não seja encontrado, a função retorna nullptr,
+ * indicando que não há um time com o nome buscado.
+ *  */
+ 
+timesDaNBA* BuscarPorNomeTime(timesDaNBA* times, int tamanhoAtual, string &nomeProcurado){
+	for(int i = 0; i < tamanhoAtual; i++){
+		if(times[i].nomeDoTime == nomeProcurado){
+			return &times[i]; // Retorna o endereço do time encontrado
+			}
+		}
+		return nullptr;
+	}
+	
+timesDaNBA* BuscarPorNomeDeJogador(timesDaNBA* times, int tamanhoAtual, string &nomeJogador){
+	for(int i = 0; i < tamanhoAtual; i++){
+		if(times[i].nomeDosJogadores.find(nomeJogador) != string::npos){
+			return &times[i]; // Retorna o endereço do time encontrado
+			}
+		}
+		return nullptr;
+	}
 
 int main() {
-	
+
     int capacidade = 40;
     int tamanhoAtual = 0;
     int idParaRemover;
@@ -187,16 +210,56 @@ int main() {
     
     // Remover logicamente um time pelo identificador
     cout << "\nDigite o identificador do time a ser removido: ";
+ 
     cin >> idParaRemover;
     RemoverTime(times, tamanhoAtual, idParaRemover);
 
     // Exibir os dados atualizados na tela
     cout << "\nApós adicionar novo time:" << endl;
     ExibirInformacoes(times, tamanhoAtual);
+    
+    string nomeProcurado;
+    cout << "Digite o nome do time a ser buscado: ";
+    getline(cin, nomeProcurado);
+
+    timesDaNBA* timeEncontrado;
+    timeEncontrado = BuscarPorNomeTime(times, tamanhoAtual, nomeProcurado);
+
+    if (timeEncontrado) {
+        cout << "Time encontrado: " << timeEncontrado -> nomeDoTime << endl;
+        cout << "Identificador: " << timeEncontrado->identificador << endl;
+        cout << "Nome do Time: " << timeEncontrado->nomeDoTime << endl;
+        cout << "Nome dos Jogadores: " << timeEncontrado->nomeDosJogadores << endl;
+        cout << "Numero de Titulos: " << timeEncontrado->numeroDeTitulos << endl;
+        cout << "Media de Pontos: " << timeEncontrado->mediaDePontos << endl;
+        
+    } else {
+		
+        cout << "Time não encontrado." << endl;
+    }
+ 
+    // Procurar por um jogador pelo nome
+    string jogadorProcurado;
+    cout << "Digite o nome do jogador a ser buscado: ";
+    getline(cin, jogadorProcurado);
+
+    timesDaNBA* jogadorEncontrado;
+    jogadorEncontrado = BuscarPorNomeDeJogador(times, tamanhoAtual, jogadorProcurado);
+
+    if (jogadorEncontrado) {
+        cout << "Jogador encontrado no time: "<< jogadorEncontrado -> nomeDoTime << endl;
+        cout << "Identificador: " << jogadorEncontrado->identificador << endl;
+        cout << "Nome do Time: " << jogadorEncontrado->nomeDoTime << endl;
+        cout << "Nome dos Jogadores: " << jogadorEncontrado->nomeDosJogadores << endl;
+        cout << "Numero de Titulos: " << jogadorEncontrado->numeroDeTitulos << endl;
+        cout << "Media de Pontos: " << jogadorEncontrado->mediaDePontos << endl;
+    } else {
+        cout << "Jogador não encontrado." << endl;
+    }
+    
 
     // Liberar a memória alocada
     delete[] times;
 
     return 0;
 }
-
